@@ -12,15 +12,15 @@ if __name__ == '__main__':
         'connection_timeout_seconds': 10
     })
 
-    # retrieve_response = client.collections['comments'].retrieve()
-    # print(retrieve_response)
+    retrieve_response = client.collections['comments'].retrieve()
+    print(retrieve_response)
 
     # print(client.collections['comments'].documents[2130906].retrieve())
 
-    search_parameters = {
-        'q': 'galaxy merger',
-        'query_by': 'comment_body',
-        }
-    response = client.collections['comments'].documents.search(search_parameters)
-    print(response)
+    # search_parameters = {
+    #     'q': 'galaxy merger',
+    #     'query_by': 'comment_body',
+    #     }
+    # response = client.collections['comments'].documents.search(search_parameters)
+    # print(response)
     

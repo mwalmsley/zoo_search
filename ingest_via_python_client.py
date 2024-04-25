@@ -11,14 +11,28 @@ SCHEMA = {
             'index': True
           },
 
-          {'name'  : '.*_title',
-          'type'  : 'string'},
+          {'name'  : 'board_title',
+          'type'  : 'string',
+          'facet': True
+          },
 
           {'name'  : 'board_description',
           'type'  : 'string',
           'facet' : True},
 
+
+          {'name'  : 'discussion_title',
+          'type'  : 'string',
+          'facet': False
+          },
+
+
           {'name'  : 'comment_id',
+          'type'  : 'int64',
+          'index' : True,
+          'facet' : False},
+
+          {'name'  : 'comment_user_id',
           'type'  : 'int64',
           'index' : True,
           'facet' : False},
@@ -33,15 +47,16 @@ SCHEMA = {
           'index' : False,
           'facet' : False},
 
-          # {'name' : 'embedding',
-          # 'type' : 'float[]',
-          # 'embed': {
-          #     'from': ['comment_body'],
-          #     'model_config': {
-          #         'model_name': 'ts/all-MiniLM-L12-v2'
-          #         }
-          #     }
-          # }
+          {'name' : 'embedding',
+          'type' : 'float[]',
+          'embed': {
+              'from': ['comment_body'],
+              'model_config': {
+                  # 'model_name': 'ts/all-MiniLM-L12-v2'
+                  'model_name': 'ts/e5-small-v2'
+                  }
+              }
+          }
       ],
 
       # 'default_sorting_field' : 'comment_created_at_unix',
@@ -58,17 +73,16 @@ if __name__ == '__main__':
       'protocol': 'http'   # For Typesense Cloud use https
     }],
     'api_key': 'xyz',
-    'connection_timeout_seconds': 10
+    'connection_timeout_seconds': 20
   })
-
 
   collections = client.collections.retrieve()
   if 'comments' in [collection['name'] for collection in collections]:
     client.collections['comments'].delete()
   client.collections.create(SCHEMA)
 
-  json_loc = '/Users/user/repos/zoo_search/typesense-data/gz_talk_export_1000comments.jsonl'
-  # json_loc = '/Users/user/repos/zoo_search/typesense-data/gz_talk_export.jsonl'
+  # json_loc = '/Users/user/repos/zoo_search/typesense-data/gz_talk_export_1000comments.jsonl'
+  json_loc = '/Users/user/repos/zoo_search/typesense-data/gz_talk_export.jsonl'
   with open(json_loc) as jsonl_file:
     client.collections['comments'].documents.import_(jsonl_file.read().encode('utf-8'))
 

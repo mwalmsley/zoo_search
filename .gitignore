@@ -161,3 +161,6 @@ cython_debug/
 
 
 typesense-data
+
+package-lock.json
+data/
