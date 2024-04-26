@@ -25,7 +25,8 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     apiKey: "xyz",
     nodes: [
       {
-        host: "localhost",
+        // host: "localhost",
+        host: "https://0d55-131-176-164-143.ngrok-free.app",
         // host: "mighty-bugs-train.loca.lt",
         port: 8108,
         protocol: "http"
