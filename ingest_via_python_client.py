@@ -47,16 +47,26 @@ SCHEMA = {
           'index' : False,
           'facet' : False},
 
-          {'name' : 'embedding',
-          'type' : 'float[]',
-          'embed': {
-              'from': ['comment_body'],
-              'model_config': {
-                  # 'model_name': 'ts/all-MiniLM-L12-v2'
-                  'model_name': 'ts/e5-small-v2'
-                  }
-              }
-          }
+          {'name'  : 'img_url',
+          'type'  : 'string',
+          'index' : False,
+          'optional' : True
+          },
+
+          # {'name' : 'embedding',
+          # 'type' : 'float[]',
+          # 'embed': {
+          #     'from': ['comment_body'],
+          #     'model_config': {
+          #       # https://huggingface.co/sentence-transformers/all-MiniLM-L12-v2
+          #         # 'model_name': 'ts/all-MiniLM-L12-v2'
+          #         'model_name': 'ts/e5-small-v2',
+          #         # this one requires...
+          #         "indexing_prefix": "passage:",
+          #         "query_prefix": "query:"
+          #         }
+          #     }
+          # }
       ],
 
       # 'default_sorting_field' : 'comment_created_at_unix',
@@ -81,9 +91,8 @@ if __name__ == '__main__':
     client.collections['comments'].delete()
   client.collections.create(SCHEMA)
 
-  # json_loc = '/Users/user/repos/zoo_search/typesense-data/gz_talk_export_1000comments.jsonl'
-  json_loc = '/Users/user/repos/zoo_search/typesense-data/gz_talk_export.jsonl'
+  # json_loc = '/Users/user/repos/zoo_search/data/gz_talk_export_1000comments.jsonl'
+  # json_loc = '/Users/user/repos/zoo_search/data/gz_talk_export.jsonl'
+  json_loc = '/Users/user/repos/zoo_search/data/gz_talk_export_imgurls.jsonl'
   with open(json_loc) as jsonl_file:
-    client.collections['comments'].documents.import_(jsonl_file.read().encode('utf-8'))
-
-
+    client.collections['comments'].documents.import_(jsonl_file.read().encode('utf-8'), {'action': 'upsert'})

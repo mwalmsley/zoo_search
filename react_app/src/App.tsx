@@ -110,6 +110,8 @@ function Hit({ hit }: HitProps) {
       <i>
         <Highlight attribute="board_title" hit={hit} />
       </i>
+      {/* src={hit.image_url} */}
+      <img crossOrigin="anonymous" src='https://panoptes-uploads.zooniverse.org/subject_location/33147e8e-2b0e-4bb7-9c67-e1932c34c78e.jpeg' style={{ width: '100px', height: '100px' }} />
       <h3>
         User <Snippet attribute="comment_user_id" hit={hit}></Snippet>
       </h3>
