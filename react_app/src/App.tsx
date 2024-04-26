@@ -26,10 +26,10 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     nodes: [
       {
         // host: "localhost",
-        host: "https://0d55-131-176-164-143.ngrok-free.app",
+        host: "0d55-131-176-164-143.ngrok-free.app",
         // host: "mighty-bugs-train.loca.lt",
-        port: 8108,
-        protocol: "http"
+        // port: 8108,
+        protocol: "https"
       }
     ]
   },
