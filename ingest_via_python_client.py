@@ -53,6 +53,11 @@ SCHEMA = {
           'optional' : True
           },
 
+          {'name'  : 'has_img_url',
+          'type'  : 'bool',
+          'index' : True
+          }
+
           # {'name' : 'embedding',
           # 'type' : 'float[]',
           # 'embed': {
@@ -93,6 +98,7 @@ if __name__ == '__main__':
 
   # json_loc = '/Users/user/repos/zoo_search/data/gz_talk_export_1000comments.jsonl'
   # json_loc = '/Users/user/repos/zoo_search/data/gz_talk_export.jsonl'
-  json_loc = '/Users/user/repos/zoo_search/data/gz_talk_export_imgurls.jsonl'
+  # json_loc = '/Users/user/repos/zoo_search/data/gz_talk_export_imgurls.jsonl'
+  json_loc = '/Users/user/repos/zoo_search/data/gz_talk_export_imgurls_bool.json'
   with open(json_loc) as jsonl_file:
     client.collections['comments'].documents.import_(jsonl_file.read().encode('utf-8'), {'action': 'upsert'})

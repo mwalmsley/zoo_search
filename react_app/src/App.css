@@ -58,6 +58,10 @@ em {
   margin-right: 100px;
 } */
 
+.filter-pane {
+  margin-right: 20px
+}
+
 .search-panel__filters {
   flex: 1;
 
@@ -83,4 +87,8 @@ em {
 .ais-Hits-item img {
   max-height: 125px;
   padding-right: 16px;
+}
+
+.filter-header {
+  margin-top: 0;
 }

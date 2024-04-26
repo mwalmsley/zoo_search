@@ -36,18 +36,14 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   //  So you can pass any parameters supported by the search endpoint below.
   //  queryBy is required.
   additionalSearchParameters: {
-    query_by: "comment_body"
+    query_by: "comment_body",
+    filter_by: "has_img_url:true",
+    limit_hits: 1000
     // limit_hits: 4
     // include_fields: ["board_description"]
   }
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
-
-// doesn't exist anymore
-// const search = instantsearch({
-//   searchClient,
-//   indexName: "books"
-// });
 
 const future = { preserveSharedStateOnUnmount: true };
 
@@ -59,9 +55,9 @@ export function App() {
           <a href="/">Galaxy Zoo Talk Search</a>
         </h1>
         <p className="header-subtitle">
-          using{' '}
-          <a href="https://github.com/algolia/instantsearch/tree/master/packages/react-instantsearch">
-            .Astronomy brainpower
+          created at{' '}
+          <a href="https:www.dotastronomy.com">
+            .Astronomy 13
           </a>
         </p>
       </header>
@@ -74,8 +70,8 @@ export function App() {
         >
           <Configure hitsPerPage={10} />
           <div className="search-panel" id="foo">
-            <div>
-              <h2>Board Filter</h2>
+            <div className="filter-pane">
+              <h2 className="filter-header">Board Filter</h2>
               <div className="search-panel__filters"></div>
               <RefinementList attribute="board_title" />
             </div>
@@ -105,22 +101,30 @@ type HitProps = {
 
 
 function Hit({ hit }: HitProps) {
+  // console.log(hit.img_url)
+  const comment_url = "https://www.zooniverse.org/projects/zookeeper/galaxy-zoo/talk/1269/" + hit.discussion_id + "?comment=" + hit.comment_id
+  // https://www.zooniverse.org/projects/zookeeper/galaxy-zoo/talk/1269/656301?comment=4809026
   return (
     <article>
-      <i>
-        <Highlight attribute="board_title" hit={hit} />
-      </i>
-      {/* src={hit.image_url} */}
-      <img crossOrigin="anonymous" src='https://panoptes-uploads.zooniverse.org/subject_location/33147e8e-2b0e-4bb7-9c67-e1932c34c78e.jpeg' style={{ width: '100px', height: '100px' }} />
+      <div>
+        <i>
+          <Highlight attribute="board_title" hit={hit} />
+        </i>
+        <br></br>
+        {/* src={hit.img_url} */}
+        {/* 'https://panoptes-uploads.zooniverse.org/subject_location/33147e8e-2b0e-4bb7-9c67-e1932c34c78e.jpeg' */}
+        <img crossOrigin="anonymous" src={hit.img_url} style={{ width: '125px', height: '125px'}} />
+      </div>
       <h3>
-        User <Snippet attribute="comment_user_id" hit={hit}></Snippet>
+        <Snippet attribute="discussion_title" hit={hit}></Snippet>, User <Snippet attribute="comment_user_id" hit={hit}></Snippet>
       </h3>
-      <h3>
-        <Snippet attribute="discussion_title" hit={hit}></Snippet>
-      </h3>
+      {/* <h3>
+        
+      </h3> */}
       <p>
         <Snippet hit={hit} attribute="comment_body" />
       </p>
+      <a href={comment_url}>Link</a>
     </article>
   );
 }
